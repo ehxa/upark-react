@@ -20,7 +20,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/pages/parkfacilities" element={<ParkFacilities />} />
-        <Route path="/pages/park/:parkName" element={<SpotStatus />} />
+        <Route path="/pages/spotstatus/:parkName" element={<SpotStatus />} />
         <Route path="/pages/clients" element={<Clients />} />
         <Route path="/pages/cliente/:clientId" element={<Client />} />
         <Route path="/pages/tickets" element={<Tickets />} />
