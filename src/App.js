@@ -1,54 +1,37 @@
-import React, { useState, useEffect } from "react";
-import "./App.scss";
-import Navbar from './components/navbar';
-import MobileNavbar from './components/mobileNavbar';
-import Central from './components/central';
-import Reminders from "./components/reminders";
-import Notifications from "./components/notifications";
-import { Row, Col } from "react-bootstrap";
+import React, { useState } from "react";
+import logo from ".//images/logo.svg";
+import { Button } from "react-bootstrap";
 
-const App = () => {
-  const [theme, setTheme] = useState('dark-mode');
+const LoginPage = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'dark-mode';
-    setTheme(savedTheme);
-    document.body.className = savedTheme;
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark-mode' ? 'light-mode' : 'dark-mode';
-    setTheme(newTheme);
-    document.body.className = newTheme;
-    localStorage.setItem('theme', newTheme);
-  };
-
-  return (
-    <>
-      <Row style={{ margin: 0 }}>
-        <Col sm={2}>
-          <Navbar />
-          <MobileNavbar />
-        </Col>
-        <Col>
-          <Central />
-        </Col>
-        <Col sm={2} className="widgets-main">
-          <Col>
-            <Notifications />
-          </Col>
-          <Col>
-            <Reminders />
-          </Col>
-          <Col>
-            <button onClick={toggleTheme} className="modeButton">
-              {theme === 'dark-mode' ? 'Light Mode' : 'Dark Mode'}
-            </button>
-          </Col>
-        </Col>
-      </Row>
-    </>
-  );
+    const handleLogin = () => {
+        //
+    };
+    return (
+        <div className="loginPage">
+            <div className="loginContainer">
+                <img src={logo} alt="Upark" />
+                <div className="inputContainer">
+                    <input 
+                        type="text" 
+                        placeholder="username" 
+                        value={username} 
+                        onChange={(e) => setUsername(e.target.value)} 
+                    />
+                    <input 
+                        type="password" 
+                        placeholder="password" 
+                        value={password} 
+                        onChange={(e) => setPassword(e.target.value)} 
+                    />
+                    <Button className="loginButton" href="/pages/parkfacilities">LOG IN</Button>
+                </div>
+                <a href="/forgot-password">Forgot your username or password? Click here.</a>
+            </div>
+        </div>
+    );
 };
 
-export default App;
+export default LoginPage;

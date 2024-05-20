@@ -5,35 +5,53 @@ import MobileNavbar from '../components/mobileNavbar';
 import Central from '../components/central';
 import Reminders from "../components/reminders";
 import Notifications from "../components/notifications";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import park1 from "../images/parque1.png";
 import park2 from "../images/parque2.jpg";
 import park3 from "../images/parque3.png";
 import park4 from "../images/parque4.png";
-import {Button} from "react-bootstrap";
+import lightdark from "../images/lightdark.svg"
+import { useNavigate } from 'react-router-dom';
 
 const ParkFacilites = () => {
+  const [theme, setTheme] = useState('dark');
+  const navigate = useNavigate();
+
+  const handleParkClick = (parkName) => {
+    navigate(`/pages/spotstatus/${parkName}`);
+  };
+
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(savedTheme);
+    document.body.className = `${savedTheme}-mode`;
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+    document.body.className = `${newTheme}-mode`;
+  };
 
   return (
     <>
       <Row style={{ margin: 0 }}>
         <Col sm={2}>
-          <Navbar></Navbar>
-          <MobileNavbar></MobileNavbar>
+          <Navbar />
+          <MobileNavbar />
         </Col>
         <Col className="parks">
-          <Button className='parksButtons' href='/pages/parque1'><img src={park1} alt="" />Plaza Center</Button>
-          <Button className='parksButtons' href='/pages/parque2'><img src={park2} alt="" />Almirante Reis</Button>
-          <Button className='parksButtons' href='/pages/parque3'><img src={park3} alt="" />Tecnoparque</Button>
-          <Button className='parksButtons' href='/pages/parque3'><img src={park4} alt="" />Lido</Button>
+          <Button onClick={() => handleParkClick('Plaza Center')} className='parksButtons'><img src={park1} alt="Plaza Center" />Plaza Center</Button>
+          <Button onClick={() => handleParkClick('Almirante Reis')} className='parksButtons'><img src={park2} alt="Almirante Reis" />Almirante Reis</Button>
+          <Button onClick={() => handleParkClick('Tecnoparque')} className='parksButtons'><img src={park3} alt="Tecnoparque" />Tecnoparque</Button>
+          <Button onClick={() => handleParkClick('Frentemar Lido')} className='parksButtons'><img src={park4} alt="Frentemar Lido" />Lido</Button>
         </Col>
-        <Col sm={2} className="widgets-main">
-          <Col>
-            <Notifications></Notifications>
-          </Col>
-          <Col>
-            <Reminders></Reminders>
-          </Col>
+        <Col sm={1}>
+        <button className="modeButton" onClick={toggleTheme}>
+          <img src={lightdark} alt="" />
+        </button>
         </Col>
       </Row>
     </>

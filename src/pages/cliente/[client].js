@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import "../App.scss";
-import Navbar from '../components/navbar';
-import MobileNavbar from '../components/mobileNavbar';
+import "../../App.scss";
+import Navbar from '../../components/navbar';
+import MobileNavbar from '../../components/mobileNavbar';
 import { Row, Col, Button, Card } from "react-bootstrap";
-import lightdark from "../images/lightdark.svg";
-import { useNavigate } from 'react-router-dom';
+import lightdark from "../../images/lightdark.svg";
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from "axios";
 
-const Tickets = () => {
+const ClientDetails = () => {
+    const { clientId } = useParams();
     const [theme, setTheme] = useState('dark');
     const [tickets, setTickets] = useState([]);
     const navigate = useNavigate();
@@ -23,7 +24,7 @@ const Tickets = () => {
 
         const fetchTickets = async () => {
             try {
-                const response = await axios.get('https://upark-knpbe.run-us-west2.goorm.site/data/tickets');
+                const response = await axios.get(`https://upark-knpbe.run-us-west2.goorm.site/data/clients/${clientId}`);
                 setTickets(response.data);
             } catch (error) {
                 console.error('Error fetching tickets', error);
@@ -49,24 +50,24 @@ const Tickets = () => {
                 </Col>
                 <Col className="parks cards">
                     <Row className="client card-row">
-                        <h2 className="cardsTitle">Tickets</h2>
+                        <h2 className="cardsTitle">Client Tickets</h2>
+                        <Button className="backButton modeButton" href="/pages/clients"><img width="64" height="64" src="https://img.icons8.com/flat-round/64/back--v1.png" alt="back--v1"/>&nbsp;&nbsp;&nbsp;Go back to clients</Button>
                         {tickets.map(ticket => (
-                            <Col key={ticket.idticket} sm={4} className="card-col">
+                            <Col key={ticket.idticket} sm={6} className="card-col">
                                 <Card className="clientCards">
                                     <Card.Header as="h5">{ticket.title}</Card.Header>
                                     <Card.Body>
                                         <Card.Text>
                                             <h4>Details</h4>
                                             <p><strong>Time:</strong> {ticket.time}</p>
-
-                                            <h4>Associated user</h4>
-                                            <p><strong>Username:</strong> {ticket.username}</p>
+                                            <p><strong>Description:</strong> {ticket.description}</p>
 
                                             <h4>Place</h4>
                                             <p><strong>Name:</strong> {ticket.name}</p>
 
                                             <h4>Vehicle</h4>
                                             <p><strong>Model:</strong> {ticket.model}</p>
+                                            <p><strong>Plate:</strong> {ticket.plate}</p>
                                         </Card.Text>
                                         <Button className="modeButton" onClick={() => handleTicketClick(ticket.idticket)} >See more</Button>
                                     </Card.Body>
@@ -85,4 +86,4 @@ const Tickets = () => {
     );
 };
 
-export default Tickets;
+export default ClientDetails;
